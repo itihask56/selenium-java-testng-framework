@@ -5,7 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +32,10 @@ public class FirstTest {
         options.addArguments("--disable-features=PasswordManagerOnboarding");
 
         WebDriver driver = new ChromeDriver(options);
+//
 
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        
         driver.get("https://www.saucedemo.com/");
         driver.findElement(By.id("user-name")).sendKeys("standard_user");
         driver.findElement(By.id("password")).sendKeys("secret_sauce");
@@ -52,9 +59,10 @@ public class FirstTest {
         driver.findElement(By.id("first-name")).sendKeys("Itihas");
         driver.findElement(By.id("last-name")).sendKeys("Verma");
         driver.findElement(By.id("postal-code")).sendKeys("805127");
-        driver.findElement(By.id("continue")).click();
-        driver.findElement(By.id("finish")).click();
-        Thread.sleep(3000);
+//        driver.findElement(By.id("continue")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("continue"))).click();
+        WebElement finishButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("finish")));
+        finishButton.click();
         driver.quit();
     }
 }
