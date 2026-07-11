@@ -5,27 +5,29 @@ import com.itihas.pages.LoginPage;
 import com.itihas.pages.ProductsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
 
-    public static void main(String[] args) {
+    @Test
+    public  void loginTest() {
 
-         LoginTest test = new LoginTest();
-         test.setup();
 
-        LoginPage loginPage = new LoginPage(test.driver);
+         setup();
+
+        LoginPage loginPage = new LoginPage(driver);
 
         loginPage.login(
                 "standard_user",
                 "secret_sauce"
         );
 
-        ProductsPage productsPage = new ProductsPage(test.driver);
+        ProductsPage productsPage = new ProductsPage(driver);
         System.out.println(productsPage.getTotalProducts());
         productsPage.printAllProducts();
         productsPage.addProductsBelowPrice(20);
 
 //        driver.quit();
-        test.tearDown();
+        tearDown();
     }
 }

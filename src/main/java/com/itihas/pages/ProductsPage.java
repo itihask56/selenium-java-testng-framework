@@ -14,7 +14,6 @@ import java.util.List;
 public class ProductsPage extends BasePage {
 
     //variable
-    private WebDriver driver;
     private WebDriverWait wait;
 
     //constructor
