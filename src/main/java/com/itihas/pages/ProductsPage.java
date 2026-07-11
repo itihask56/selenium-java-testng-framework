@@ -78,8 +78,8 @@ public class ProductsPage extends BasePage {
 
         for(WebElement product : cheapProducts){
 
-//            product.findElement(button).click();
-            product.click(button);
+            product.findElement(button).click();
+//            product.click(button);
 
 
         }
