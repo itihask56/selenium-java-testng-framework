@@ -10,19 +10,21 @@ import org.testng.annotations.Test;
 public class LoginTest extends BaseTest {
 
     @Test
-    public  void loginTest() {
+    public void loginTest() {
 
 
          setup();
 
         LoginPage loginPage = new LoginPage(driver);
 
-        loginPage.login(
-                "standard_user",
-                "secret_sauce"
-        );
+//        loginPage.login(
+//                "standard_user",
+//                "secret_sauce"
+//        );
+//
+//        ProductsPage productsPage = new ProductsPage(driver);
 
-        ProductsPage productsPage = new ProductsPage(driver);
+        ProductsPage productsPage = loginPage.login("standard_user", "secret_sauce");
         System.out.println(productsPage.getTotalProducts());
         productsPage.printAllProducts();
         productsPage.addProductsBelowPrice(20);

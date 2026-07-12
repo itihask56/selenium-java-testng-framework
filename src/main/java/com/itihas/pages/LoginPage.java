@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 public class LoginPage extends BasePage {
 
     //Variable
-    private WebDriver driver;
+//    private WebDriver driver;
 
     //Constructor
     public LoginPage(WebDriver driver) {
@@ -23,25 +23,27 @@ public class LoginPage extends BasePage {
     private By loginButton = By.id("login-button");
 
     //Methods
-    public void enterUsername(String user) {
+    private void enterUsername(String user) {
 //        driver.findElement(username).sendKeys(user);
           type(username,user);
     }
 
-    public void enterPassword(String pass) {
+    private void enterPassword(String pass) {
 //        driver.findElement(password).sendKeys(pass);
         type(password,pass);
     }
 
-    public void clickLogin() {
+    private void clickLogin() {
 
 //        driver.findElement(loginButton).click();
         click(loginButton);
     }
 
-    public void login(String user, String pass) {
+    public ProductsPage login(String user, String pass) {
         enterUsername(user);
         enterPassword(pass);
         clickLogin();
+
+        return new ProductsPage(driver);
     }
 }
