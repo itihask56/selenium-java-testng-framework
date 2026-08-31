@@ -13,23 +13,12 @@ public class LoginTest extends BaseTest {
     public void loginTest() {
 
 
-         setup();
-
+//        setup();
         LoginPage loginPage = new LoginPage(driver);
-
-//        loginPage.login(
-//                "standard_user",
-//                "secret_sauce"
-//        );
-//
-//        ProductsPage productsPage = new ProductsPage(driver);
-
-        ProductsPage productsPage = loginPage.login("standard_user", "secret_sauce");
+        ProductsPage productsPage = loginPage.login("standard_user", "secret_sauce");//new ProductPage(driver)
         System.out.println(productsPage.getTotalProducts());
         productsPage.printAllProducts();
         productsPage.addProductsBelowPrice(20);
-
-//        driver.quit();
-        tearDown();
+//        tearDown();
     }
 }

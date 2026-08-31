@@ -73,7 +73,7 @@ public class ProductsPage extends BasePage {
 
             }
         }
-        System.out.println(cheapProducts.size());
+        System.out.println("No. of cheap products"+cheapProducts.size());
 
         for(WebElement product : cheapProducts){
 
