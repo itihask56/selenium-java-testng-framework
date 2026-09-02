@@ -1,17 +1,23 @@
 #!/bin/bash
 
-echo "Starting Automation Suite..."
+echo "================================="
+echo "Automation Execution Started"
+echo "================================="
+
+echo "Date: $(date)"
+
+echo "Branch: $(git branch --show-current)"
+
+echo "Java Files: $(find src -name '*.java' | wc -l)"
 
 mvn clean test
 
 if [ $? -eq 0 ]
 then
-    echo "Test Execution Successful"
+    echo "Tests Passed"
 else
-    echo "Test Execution Failed"
+    echo "Tests Failed"
     exit 1
 fi
 
-echo "Generating Report..."
-
-echo "Done!"
+echo "Execution Complete"
