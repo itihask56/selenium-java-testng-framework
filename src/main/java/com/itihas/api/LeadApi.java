@@ -9,7 +9,7 @@ import javax.sound.midi.Soundbank;
 
 
 public class LeadApi extends ApiBase{
-
+    private final ApiClient apiClient = new ApiClient();
     public String createLead(){
         String firstName = FakeDataGenerator.firstName();
 
@@ -38,13 +38,15 @@ public class LeadApi extends ApiBase{
                 lastName
         );
 
-        Response createLeadResponse =
-                RestAssured
-                        .given()
-                        .spec(REQUEST_SPEC)
-                        .body(createLeadPayload)
-                        .when()
-                        .post("/add-temp-activity");
+//        Response createLeadResponse =
+//                RestAssured
+//                        .given()
+//                        .spec(REQUEST_SPEC)
+//                        .body(createLeadPayload)
+//                        .when()
+//                        .post("/add-temp-activity");
+
+        Response createLeadResponse = apiClient.post("/add-temp-activity",createLeadPayload);
         System.out.println("===== CREATE LEAD RESPONSE =====");
         createLeadResponse.prettyPrint();
 
@@ -77,13 +79,15 @@ public class LeadApi extends ApiBase{
                 leadUuid
         );
 
-        Response updateLeadResponse =
-                RestAssured
-                        .given()
-                        .spec(REQUEST_SPEC)
-                        .body(updateLeadPayload)
-                        .when()
-                        .put("/update-lead-answers?check_permission=false");
+//        Response updateLeadResponse =
+//                RestAssured
+//                        .given()
+//                        .spec(REQUEST_SPEC)
+//                        .body(updateLeadPayload)
+//                        .when()
+//                        .put("/update-lead-answers?check_permission=false");
+
+        Response updateLeadResponse = apiClient.put("/update-lead-answers?check_permission=false",updateLeadPayload);
 
         System.out.println("===== UPDATE LEAD RESPONSE =====");
         updateLeadResponse.prettyPrint();
@@ -107,14 +111,14 @@ public class LeadApi extends ApiBase{
                 leadUuid
         );
 
-        Response updateLeadDispositionResponse =
-                RestAssured
-                        .given()
-                        .spec(REQUEST_SPEC)
-                        .body(updateLeadDispositionPayload)
-                        .when()
-                        .put("/update-lead-disposition-remark?check_permission=false");
-
+//        Response updateLeadDispositionResponse =
+//                RestAssured
+//                        .given()
+//                        .spec(REQUEST_SPEC)
+//                        .body(updateLeadDispositionPayload)
+//                        .when()
+//                        .put("/update-lead-disposition-remark?check_permission=false");
+        Response updateLeadDispositionResponse = apiClient.put("/update-lead-disposition-remark?check_permission=false",updateLeadDispositionPayload);
 
         System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
         updateLeadDispositionResponse.prettyPrint();
