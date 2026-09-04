@@ -44,13 +44,14 @@ public class LeadApi extends ApiBase{
                         .body(createLeadPayload)
                         .when()
                         .post("/add-temp-activity");
+        System.out.println("===== CREATE LEAD RESPONSE =====");
+        createLeadResponse.prettyPrint();
 
         if(createLeadResponse .getStatusCode()!=200){
             throw new RuntimeException("Create Lead Failed");
         }
 
-        System.out.println("===== CREATE LEAD RESPONSE =====");
-        createLeadResponse.prettyPrint();
+
 
         String leadUuid = createLeadResponse .jsonPath().getString("data[0].uuid");
         String elderUuid = createLeadResponse.jsonPath().getString("data[0].elder_uuid");
@@ -82,12 +83,15 @@ public class LeadApi extends ApiBase{
                         .body(updateLeadPayload)
                         .when()
                         .put("/update-lead-answers?check_permission=false");
+
+        System.out.println("===== UPDATE LEAD RESPONSE =====");
+        updateLeadResponse.prettyPrint();
+
         if(updateLeadResponse.getStatusCode()!=200){
             throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
         }
 
-        System.out.println("===== UPDATE LEAD RESPONSE =====");
-        updateLeadResponse.prettyPrint();
+
     }
 
     public void updateLeadDisposition(String leadUuid){
@@ -110,11 +114,14 @@ public class LeadApi extends ApiBase{
                         .when()
                         .put("/update-lead-disposition-remark?check_permission=false");
 
+
+        System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
+        updateLeadDispositionResponse.prettyPrint();
+
         if(updateLeadDispositionResponse.getStatusCode()!=200){
             throw new RuntimeException("UPDATE LEAD DISPOSITION FAILED");
         }
-        System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
-        updateLeadDispositionResponse.prettyPrint();
+
     }
 
 
