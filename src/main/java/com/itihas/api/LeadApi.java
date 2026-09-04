@@ -3,10 +3,10 @@ package com.itihas.api;
 import com.itihas.utils.FakeDataGenerator;
 
 import com.itihas.utils.ResponseValidator;
-import io.restassured.RestAssured;
+
 import io.restassured.response.Response;
 
-import javax.sound.midi.Soundbank;
+import com.itihas.reporting.ExtentTestManager;
 
 
 public class LeadApi extends ApiBase{
@@ -47,6 +47,7 @@ public class LeadApi extends ApiBase{
 //                        .when()
 //                        .post("/add-temp-activity");
 
+        ExtentTestManager.getTest().info("Creating Lead");
         Response createLeadResponse = apiClient.post("/add-temp-activity",createLeadPayload);
         System.out.println("===== CREATE LEAD RESPONSE =====");
         createLeadResponse.prettyPrint();
@@ -59,7 +60,7 @@ public class LeadApi extends ApiBase{
                 200,
                 "Create Lead Failed"
         );
-
+        ExtentTestManager.getTest().pass("Lead Created Successfully");
 
 
         String leadUuid = createLeadResponse .jsonPath().getString("data[0].uuid");
@@ -93,6 +94,8 @@ public class LeadApi extends ApiBase{
 //                        .when()
 //                        .put("/update-lead-answers?check_permission=false");
 
+        ExtentTestManager.getTest().info("Updating Lead Answers");
+
         Response updateLeadResponse = apiClient.put("/update-lead-answers?check_permission=false",updateLeadPayload);
 
         System.out.println("===== UPDATE LEAD RESPONSE =====");
@@ -102,6 +105,7 @@ public class LeadApi extends ApiBase{
 //            throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
 //        }
         ResponseValidator.validateStatusCode(updateLeadResponse,200,"UPDATE LEAD ANSWER FAILED");
+        ExtentTestManager.getTest().pass("Lead Answers Updated Successfully");
 
 
     }
@@ -125,6 +129,7 @@ public class LeadApi extends ApiBase{
 //                        .body(updateLeadDispositionPayload)
 //                        .when()
 //                        .put("/update-lead-disposition-remark?check_permission=false");
+        ExtentTestManager.getTest().info("Updating Lead Disposition");
         Response updateLeadDispositionResponse = apiClient.put("/update-lead-disposition-remark?check_permission=false",updateLeadDispositionPayload);
 
         System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
@@ -135,6 +140,7 @@ public class LeadApi extends ApiBase{
 //        }
 
         ResponseValidator.validateStatusCode(updateLeadDispositionResponse,200,"UPDATE LEAD DISPOSITION FAILED");
+        ExtentTestManager.getTest().pass("Lead Disposition Updated Successfully");
 
     }
 
