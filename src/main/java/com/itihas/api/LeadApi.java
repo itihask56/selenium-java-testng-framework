@@ -6,9 +6,8 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 
-public class LeadApi {
-    private static final String TOKEN = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYzNzM4LCJwYXNzd29yZF9sYXN0X3VwZGF0ZWRfYXQiOiIyMDI2LTAxLTA5IDE3OjQ1OjM5IiwiaWF0IjoxNzg4MzM5NDI3LCJleHAiOjE3OTA5MzE0Mjd9.-ywTjiZPheFewGXAVcv97iGnUVjkRVVw8aN1II7Ym88";
-    private static final String BASE_URL = "https://api.emoha.com/api/v1/crm";
+public class LeadApi extends ApiBase{
+
 
     public String createLead(){
         String firstName = FakeDataGenerator.firstName();
@@ -41,18 +40,18 @@ public class LeadApi {
         Response createLeadResponse =
                 RestAssured
                         .given()
-                        .header("Authorization", TOKEN)
-                        .contentType("application/json")
+                        .spec(REQUEST_SPEC)
                         .body(createLeadPayload)
                         .when()
-                        .post(BASE_URL+"/add-temp-activity");
+                        .post("/add-temp-activity");
+        System.out.println("===== CREATE LEAD RESPONSE =====");
+        createLeadResponse.prettyPrint();
 
         if(createLeadResponse .getStatusCode()!=200){
             throw new RuntimeException("Create Lead Failed");
         }
 
-        System.out.println("===== CREATE LEAD RESPONSE =====");
-        createLeadResponse.prettyPrint();
+
 
         String leadUuid = createLeadResponse .jsonPath().getString("data[0].uuid");
         String elderUuid = createLeadResponse.jsonPath().getString("data[0].elder_uuid");
@@ -80,17 +79,19 @@ public class LeadApi {
         Response updateLeadResponse =
                 RestAssured
                         .given()
-                        .header("Authorization", TOKEN)
-                        .contentType("application/json")
+                        .spec(REQUEST_SPEC)
                         .body(updateLeadPayload)
                         .when()
-                        .put(BASE_URL+"/update-lead-answers?check_permission=false");
+                        .put("/update-lead-answers?check_permission=false");
+
+        System.out.println("===== UPDATE LEAD RESPONSE =====");
+        updateLeadResponse.prettyPrint();
+
         if(updateLeadResponse.getStatusCode()!=200){
             throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
         }
 
-        System.out.println("===== UPDATE LEAD RESPONSE =====");
-        updateLeadResponse.prettyPrint();
+
     }
 
     public void updateLeadDisposition(String leadUuid){
@@ -108,17 +109,19 @@ public class LeadApi {
         Response updateLeadDispositionResponse =
                 RestAssured
                         .given()
-                        .header("Authorization", TOKEN)
-                        .contentType("application/json")
+                        .spec(REQUEST_SPEC)
                         .body(updateLeadDispositionPayload)
                         .when()
-                        .put(BASE_URL+"/update-lead-disposition-remark?check_permission=false");
+                        .put("/update-lead-disposition-remark?check_permission=false");
+
+
+        System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
+        updateLeadDispositionResponse.prettyPrint();
 
         if(updateLeadDispositionResponse.getStatusCode()!=200){
             throw new RuntimeException("UPDATE LEAD DISPOSITION FAILED");
         }
-        System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
-        updateLeadDispositionResponse.prettyPrint();
+
     }
 
 
