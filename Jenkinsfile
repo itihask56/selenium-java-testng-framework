@@ -29,7 +29,8 @@ pipeline {
     post {
 
         always {
-            archiveArtifacts artifacts: 'test-output/**', allowEmptyArchive: true
+             archiveArtifacts artifacts: 'reports/**', allowEmptyArchive: true
+             archiveArtifacts artifacts: 'test-output/**', allowEmptyArchive: true
         }
 
         success {
