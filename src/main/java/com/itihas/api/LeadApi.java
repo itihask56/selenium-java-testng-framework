@@ -2,6 +2,7 @@ package com.itihas.api;
 
 import com.itihas.utils.FakeDataGenerator;
 
+import com.itihas.utils.ResponseValidator;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
@@ -9,7 +10,7 @@ import javax.sound.midi.Soundbank;
 
 
 public class LeadApi extends ApiBase{
-
+    private final ApiClient apiClient = new ApiClient();
     public String createLead(){
         String firstName = FakeDataGenerator.firstName();
 
@@ -38,19 +39,26 @@ public class LeadApi extends ApiBase{
                 lastName
         );
 
-        Response createLeadResponse =
-                RestAssured
-                        .given()
-                        .spec(REQUEST_SPEC)
-                        .body(createLeadPayload)
-                        .when()
-                        .post("/add-temp-activity");
+//        Response createLeadResponse =
+//                RestAssured
+//                        .given()
+//                        .spec(REQUEST_SPEC)
+//                        .body(createLeadPayload)
+//                        .when()
+//                        .post("/add-temp-activity");
+
+        Response createLeadResponse = apiClient.post("/add-temp-activity",createLeadPayload);
         System.out.println("===== CREATE LEAD RESPONSE =====");
         createLeadResponse.prettyPrint();
 
-        if(createLeadResponse .getStatusCode()!=200){
-            throw new RuntimeException("Create Lead Failed");
-        }
+//        if(createLeadResponse .getStatusCode()!=200){
+//            throw new RuntimeException("Create Lead Failed");
+//        }
+        ResponseValidator.validateStatusCode(
+                createLeadResponse,
+                200,
+                "Create Lead Failed"
+        );
 
 
 
@@ -77,20 +85,23 @@ public class LeadApi extends ApiBase{
                 leadUuid
         );
 
-        Response updateLeadResponse =
-                RestAssured
-                        .given()
-                        .spec(REQUEST_SPEC)
-                        .body(updateLeadPayload)
-                        .when()
-                        .put("/update-lead-answers?check_permission=false");
+//        Response updateLeadResponse =
+//                RestAssured
+//                        .given()
+//                        .spec(REQUEST_SPEC)
+//                        .body(updateLeadPayload)
+//                        .when()
+//                        .put("/update-lead-answers?check_permission=false");
+
+        Response updateLeadResponse = apiClient.put("/update-lead-answers?check_permission=false",updateLeadPayload);
 
         System.out.println("===== UPDATE LEAD RESPONSE =====");
         updateLeadResponse.prettyPrint();
 
-        if(updateLeadResponse.getStatusCode()!=200){
-            throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
-        }
+//        if(updateLeadResponse.getStatusCode()!=200){
+//            throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
+//        }
+        ResponseValidator.validateStatusCode(updateLeadResponse,200,"UPDATE LEAD ANSWER FAILED");
 
 
     }
@@ -107,21 +118,23 @@ public class LeadApi extends ApiBase{
                 leadUuid
         );
 
-        Response updateLeadDispositionResponse =
-                RestAssured
-                        .given()
-                        .spec(REQUEST_SPEC)
-                        .body(updateLeadDispositionPayload)
-                        .when()
-                        .put("/update-lead-disposition-remark?check_permission=false");
-
+//        Response updateLeadDispositionResponse =
+//                RestAssured
+//                        .given()
+//                        .spec(REQUEST_SPEC)
+//                        .body(updateLeadDispositionPayload)
+//                        .when()
+//                        .put("/update-lead-disposition-remark?check_permission=false");
+        Response updateLeadDispositionResponse = apiClient.put("/update-lead-disposition-remark?check_permission=false",updateLeadDispositionPayload);
 
         System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
         updateLeadDispositionResponse.prettyPrint();
 
-        if(updateLeadDispositionResponse.getStatusCode()!=200){
-            throw new RuntimeException("UPDATE LEAD DISPOSITION FAILED");
-        }
+//        if(updateLeadDispositionResponse.getStatusCode()!=200){
+//            throw new RuntimeException("UPDATE LEAD DISPOSITION FAILED");
+//        }
+
+        ResponseValidator.validateStatusCode(updateLeadDispositionResponse,200,"UPDATE LEAD DISPOSITION FAILED");
 
     }
 
