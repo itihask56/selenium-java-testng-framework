@@ -6,6 +6,9 @@ pipeline {
         jdk 'JDK21'
         maven 'Maven3'
     }
+    environment {
+        API_TOKEN = credentials('API_TOKEN')
+    }
 
     stages {
 
