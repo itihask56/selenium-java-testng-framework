@@ -2,6 +2,7 @@ package com.itihas.api;
 
 import com.itihas.utils.FakeDataGenerator;
 
+import com.itihas.utils.ResponseValidator;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
@@ -50,9 +51,14 @@ public class LeadApi extends ApiBase{
         System.out.println("===== CREATE LEAD RESPONSE =====");
         createLeadResponse.prettyPrint();
 
-        if(createLeadResponse .getStatusCode()!=200){
-            throw new RuntimeException("Create Lead Failed");
-        }
+//        if(createLeadResponse .getStatusCode()!=200){
+//            throw new RuntimeException("Create Lead Failed");
+//        }
+        ResponseValidator.validateStatusCode(
+                createLeadResponse,
+                200,
+                "Create Lead Failed"
+        );
 
 
 
@@ -92,9 +98,10 @@ public class LeadApi extends ApiBase{
         System.out.println("===== UPDATE LEAD RESPONSE =====");
         updateLeadResponse.prettyPrint();
 
-        if(updateLeadResponse.getStatusCode()!=200){
-            throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
-        }
+//        if(updateLeadResponse.getStatusCode()!=200){
+//            throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
+//        }
+        ResponseValidator.validateStatusCode(updateLeadResponse,200,"UPDATE LEAD ANSWER FAILED");
 
 
     }
@@ -123,9 +130,11 @@ public class LeadApi extends ApiBase{
         System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
         updateLeadDispositionResponse.prettyPrint();
 
-        if(updateLeadDispositionResponse.getStatusCode()!=200){
-            throw new RuntimeException("UPDATE LEAD DISPOSITION FAILED");
-        }
+//        if(updateLeadDispositionResponse.getStatusCode()!=200){
+//            throw new RuntimeException("UPDATE LEAD DISPOSITION FAILED");
+//        }
+
+        ResponseValidator.validateStatusCode(updateLeadDispositionResponse,200,"UPDATE LEAD DISPOSITION FAILED");
 
     }
 
