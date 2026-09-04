@@ -40,11 +40,10 @@ public class LeadApi extends ApiBase{
         Response createLeadResponse =
                 RestAssured
                         .given()
-                        .header("Authorization", TOKEN)
-                        .contentType("application/json")
+                        .spec(REQUEST_SPEC)
                         .body(createLeadPayload)
                         .when()
-                        .post(BASE_URL+"/add-temp-activity");
+                        .post("/add-temp-activity");
 
         if(createLeadResponse .getStatusCode()!=200){
             throw new RuntimeException("Create Lead Failed");
@@ -79,11 +78,10 @@ public class LeadApi extends ApiBase{
         Response updateLeadResponse =
                 RestAssured
                         .given()
-                        .header("Authorization", TOKEN)
-                        .contentType("application/json")
+                        .spec(REQUEST_SPEC)
                         .body(updateLeadPayload)
                         .when()
-                        .put(BASE_URL+"/update-lead-answers?check_permission=false");
+                        .put("/update-lead-answers?check_permission=false");
         if(updateLeadResponse.getStatusCode()!=200){
             throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
         }
@@ -107,11 +105,10 @@ public class LeadApi extends ApiBase{
         Response updateLeadDispositionResponse =
                 RestAssured
                         .given()
-                        .header("Authorization", TOKEN)
-                        .contentType("application/json")
+                        .spec(REQUEST_SPEC)
                         .body(updateLeadDispositionPayload)
                         .when()
-                        .put(BASE_URL+"/update-lead-disposition-remark?check_permission=false");
+                        .put("/update-lead-disposition-remark?check_permission=false");
 
         if(updateLeadDispositionResponse.getStatusCode()!=200){
             throw new RuntimeException("UPDATE LEAD DISPOSITION FAILED");
