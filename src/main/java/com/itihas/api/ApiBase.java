@@ -10,6 +10,13 @@ public class ApiBase {
     protected static final String BASE_URL = ConfigReader.get("api.base.url");
 
     protected static final String TOKEN = ConfigReader.getEnv("API_TOKEN");
+    static {
+        if (TOKEN == null || TOKEN.isBlank()) {
+            throw new RuntimeException(
+                    "API_TOKEN environment variable not found"
+            );
+        }
+    }
 
     protected static final RequestSpecification REQUEST_SPEC =
             new RequestSpecBuilder()
