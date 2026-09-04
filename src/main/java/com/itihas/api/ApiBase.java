@@ -9,7 +9,7 @@ public class ApiBase {
 
     protected static final String BASE_URL = ConfigReader.get("api.base.url");
 
-    protected static final String TOKEN =ConfigReader.get("api.token");
+    protected static final String TOKEN = ConfigReader.getEnv("API_TOKEN");
 
     protected static final RequestSpecification REQUEST_SPEC =
             new RequestSpecBuilder()
