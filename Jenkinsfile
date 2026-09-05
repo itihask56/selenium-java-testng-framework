@@ -3,14 +3,14 @@ pipeline {
     agent any
     parameters {
         choice(
-            name:'ENV'
-            choices:['QA','UAT']
+            name:'ENV',
+            choices:['QA','UAT'],
             description:'Select Environment'
         )
 
         choice(
             name:'SUITE',
-            choices:['Smoke','Regression']
+            choices:['Smoke','Regression'],
             description:'Select Test Suite'
         )
     }
