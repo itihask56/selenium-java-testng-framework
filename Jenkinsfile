@@ -32,9 +32,36 @@ pipeline {
         }
 
         stage('Build & Test') {
+
             steps {
-                sh 'mvn clean test'
+
+                script {
+
+                    echo "Environment: ${params.ENV}"
+                    echo "Suite: ${params.SUITE}"
+
+                    if (params.SUITE == 'Smoke') {
+
+                        sh """
+                            mvn clean test \
+                            -Denv=${params.ENV} \
+                            -DsuiteXmlFile=testng/testng-smoke.xml
+                        """
+
+                    } else {
+
+                        sh """
+                            mvn clean test \
+                            -Denv=${params.ENV} \
+                            -DsuiteXmlFile=testng/testng-regression.xml
+                        """
+
+                    }
+
+                }
+
             }
+
         }
 
     }
