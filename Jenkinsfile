@@ -1,6 +1,19 @@
 pipeline {
 
     agent any
+    parameters {
+        choice(
+            name:'ENV'
+            choices:['QA','UAT']
+            description:'Select Environment'
+        )
+
+        choice(
+            name:'SUITE',
+            choices:['Smoke','Regression']
+            description:'Select Test Suite'
+        )
+    }
 
     tools {
         jdk 'JDK21'
