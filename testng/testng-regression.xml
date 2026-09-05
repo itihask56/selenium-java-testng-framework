@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Regression Suite" verbose="1">
+
+    <listeners>
+        <listener class-name="com.itihas.listeners.TestListener"/>
+    </listeners>
+    <test name="Regression Tests">
+
+        <classes>
+
+            <class name="com.itihas.tests.LoginTest"/>
+            <class name="com.itihas.api.CreateLeadTest"/>
+            <class name="com.itihas.api.UpdateLeadAnswer"/>
+            <class name="com.itihas.api.UpdateDisposition"/>
+            <class name="com.itihas.api.LeadFlowTest"/>
+        </classes>
+
+    </test>
+
+</suite>

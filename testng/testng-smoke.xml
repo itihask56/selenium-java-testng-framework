@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Smoke Suite" verbose="1">
+
+    <listeners>
+        <listener class-name="com.itihas.listeners.TestListener"/>
+    </listeners>
+
+    <test name="Smoke Tests">
+
+        <classes>
+            <class name="com.itihas.api.LeadFlowTest"/>
+        </classes>
+
+    </test>
+
+</suite>
