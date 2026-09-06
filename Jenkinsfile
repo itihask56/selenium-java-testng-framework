@@ -10,7 +10,7 @@ pipeline {
 
         choice(
             name:'SUITE',
-            choices:['Smoke','Regression'],
+            choices:['Regression','Smoke','Parallel'],
             description:'Select Test Suite'
         )
     }
@@ -37,10 +37,17 @@ pipeline {
 
                 script {
 
-                    echo "Environment: ${params.ENV}"
-                    echo "Suite: ${params.SUITE}"
+                    def suiteToRun = params.SUITE
 
-                    if (params.SUITE == 'Smoke') {
+                    if (currentBuild.getBuildCauses()[0].shortDescription.contains('Started by timer')) {
+                        suiteToRun = 'Regression'
+                        echo "Nightly Build Detected -> Running Regression Suite"
+                    }
+
+                    echo "Environment: ${params.ENV}"
+                    echo "Suite: ${suiteToRun}"
+
+                    if (suiteToRun == 'Smoke') {
 
                         sh """
                             mvn clean test \
@@ -48,7 +55,7 @@ pipeline {
                             -DsuiteXmlFile=testng/testng-smoke.xml
                         """
 
-                    } else if (params.SUITE == 'Regression') {
+                    } else if (suiteToRun == 'Regression') {
 
                         sh """
                             mvn clean test \
@@ -56,20 +63,17 @@ pipeline {
                             -DsuiteXmlFile=testng/testng-regression.xml
                         """
 
-                    }
-                    else{
+                    } else {
+
                         sh """
                             mvn clean test \
-                            -Denv=${params.ENV}  \
-                            -DsuiteXmlFile=testng/testng-parallel.xml"
+                            -Denv=${params.ENV} \
+                            -DsuiteXmlFile=testng/testng-parallel.xml
                         """
 
                     }
-
                 }
-
             }
-
         }
 
     }
