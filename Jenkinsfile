@@ -98,10 +98,46 @@ pipeline {
         }
 
         success {
+
+            emailext(
+                subject: "SUCCESS: Automation Build #${BUILD_NUMBER}",
+                body: """
+                        Build Successful
+
+                        Environment: ${params.ENV}
+                        Suite: ${params.SUITE}
+
+                        Build URL:
+                        ${BUILD_URL}
+
+                        Extent Report:
+                        ${BUILD_URL}Extent_Report/
+                """,
+                to: "dev.itihasverma@gmail.com"
+            )
+
             echo 'Build Successful'
         }
 
         failure {
+
+            emailext(
+                subject: "FAILED: Automation Build #${BUILD_NUMBER}",
+                body: """
+                        Build Failed
+
+                        Environment: ${params.ENV}
+                        Suite: ${params.SUITE}
+
+                        Build URL:
+                        ${BUILD_URL}
+
+                        Console Logs:
+                        ${BUILD_URL}console
+                """,
+                to: "dev.itihasverma@gmail.com"
+            )
+
             echo 'Build Failed'
         }
     }
