@@ -48,7 +48,7 @@ pipeline {
                             -DsuiteXmlFile=testng/testng-smoke.xml
                         """
 
-                    } else if {
+                    } else if (params.SUITE == 'Regression') {
 
                         sh """
                             mvn clean test \
