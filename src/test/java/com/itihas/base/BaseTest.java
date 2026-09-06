@@ -3,6 +3,7 @@ package com.itihas.base;
 import com.itihas.factory.DriverFactory;
 import com.itihas.utils.ConfigReader;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
@@ -18,6 +19,7 @@ public class BaseTest {
         );
     }
 
+    @AfterMethod
     public void tearDown(){
 
         if(driver!=null){
