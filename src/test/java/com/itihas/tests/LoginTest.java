@@ -11,7 +11,10 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void loginTest() {
-
+        System.out.println(
+                "LoginTest Thread : "
+                        + Thread.currentThread().getId()
+        );
 
 //        setup();
         LoginPage loginPage = new LoginPage(driver);

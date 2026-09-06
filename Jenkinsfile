@@ -48,12 +48,20 @@ pipeline {
                             -DsuiteXmlFile=testng/testng-smoke.xml
                         """
 
-                    } else {
+                    } else if {
 
                         sh """
                             mvn clean test \
                             -Denv=${params.ENV} \
                             -DsuiteXmlFile=testng/testng-regression.xml
+                        """
+
+                    }
+                    else{
+                        sh """
+                            mvn clean test \
+                            -Denv=${params.ENV}  \
+                            -DsuiteXmlFile=testng/testng-parallel.xml"
                         """
 
                     }

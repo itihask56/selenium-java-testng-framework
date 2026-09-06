@@ -8,8 +8,6 @@
     <test name="Regression Tests">
 
         <classes>
-
-            <class name="com.itihas.tests.LoginTest"/>
             <class name="com.itihas.api.CreateLeadTest"/>
             <class name="com.itihas.api.UpdateLeadAnswer"/>
             <class name="com.itihas.api.UpdateDisposition"/>
