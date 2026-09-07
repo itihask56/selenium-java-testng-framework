@@ -7,9 +7,10 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
     private int retryCount = 0;
     private static final int MAX_RETRY_COUNT = 2;
-
     @Override
     public boolean retry(ITestResult result) {
+
+        System.out.println("Retry method invoked");
 
         if (retryCount < MAX_RETRY_COUNT) {
 
@@ -18,10 +19,8 @@ public class RetryAnalyzer implements IRetryAnalyzer {
             System.out.println(
                     "Retrying Test: "
                             + result.getName()
-                            + " | Attempt "
+                            + " Attempt "
                             + retryCount
-                            + "/"
-                            + MAX_RETRY_COUNT
             );
 
             return true;

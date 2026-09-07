@@ -8,6 +8,7 @@ import com.itihas.retry.RetryAnalyzer;
 public class RetryTest {
     @Test(retryAnalyzer = RetryAnalyzer.class)
     public void retryTest() {
+        System.out.println("Executing Test");
         Assert.fail("Intentional Failure");
     }
 
