@@ -29,6 +29,17 @@ public class ApiBase {
                     "API_TOKEN environment variable not found"
             );
         }
+        if (TOKEN != null) {
+            System.out.println(
+                    "Token Length = " +
+                            TOKEN.length()
+            );
+
+            System.out.println(
+                    "Starts With Bearer = " +
+                            TOKEN.startsWith("Bearer ")
+            );
+        }
     }
 
     protected static final RequestSpecification REQUEST_SPEC =
