@@ -2,6 +2,7 @@ package com.itihas.listeners;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.itihas.reporting.ExtentManager;
+import com.itihas.utils.ScreenshotUtils;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -21,20 +22,35 @@ public class TestListener implements ITestListener {
 
         ExtentTest extentTest =
                 ExtentManager.getInstance()
-                        .createTest(result.getName());
+                        .createTest(
+                                result.getTestClass().getRealClass().getSimpleName()
+                                        + " :: "
+                                        + result.getName()
+                        );
 
         ExtentTestManager.setTest(extentTest);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ExtentTestManager.getTest().pass("Test Passed");
+        ExtentTestManager.getTest().pass("TEST PASSED");
     }
     @Override
     public void onTestFailure(ITestResult result) {
 
+        String screenshotPath =
+                ScreenshotUtils.captureScreenshot(
+                        result.getName()
+                );
+
         ExtentTestManager.getTest()
-                .fail(result.getThrowable());
+                .fail("TEST FAILED")
+                .fail(result.getThrowable())
+                .info("Screenshot captured at failure")
+                .addScreenCaptureFromPath(
+                        screenshotPath,
+                        result.getName()
+                );
     }
 
     @Override
