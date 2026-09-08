@@ -1,6 +1,7 @@
 package com.itihas.tests;
 
 import com.itihas.base.BaseTest;
+import com.itihas.factory.DriverFactory;
 import com.itihas.pages.LoginPage;
 import com.itihas.pages.ProductsPage;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +13,7 @@ public class LoginTest extends BaseTest {
     @Test
     public void loginTest() {
         System.out.println(
-                "LoginTest Thread : "
+                "Thread Login Test : "
                         + Thread.currentThread().getId()
         );
 

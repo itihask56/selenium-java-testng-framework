@@ -12,6 +12,7 @@ public class BaseTest {
 
     @BeforeMethod
     public void setup(){
+        DriverFactory.initDriver();
         driver = DriverFactory.getDriver();
         driver.manage().window().maximize();
         driver.get(
@@ -20,11 +21,8 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void tearDown(){
+    public void tearDown() {
 
-        if(driver!=null){
-            driver.quit();
-        }
-
+        DriverFactory.quitDriver();
     }
 }

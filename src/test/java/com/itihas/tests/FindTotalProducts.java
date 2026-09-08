@@ -1,6 +1,7 @@
 package com.itihas.tests;
 
 import com.itihas.base.BaseTest;
+import com.itihas.factory.DriverFactory;
 import com.itihas.pages.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -23,6 +24,7 @@ public class FindTotalProducts extends BaseTest {
                 "FindTotalProducts Thread : "
                         + Thread.currentThread().getId()
         );
+
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login("standard_user","secret_sauce");
 
