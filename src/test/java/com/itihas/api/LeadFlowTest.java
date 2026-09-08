@@ -10,11 +10,19 @@ public class LeadFlowTest {
     public void leadApiService(){
         ExtentTestManager.getTest().info("Starting Lead API Workflow");
 
-        LeadApi leadApi = new LeadApi();
-        LeadData leadData = leadApi.createLead();
-        leadApi.updateLeadAnswer(leadData.getLeadUuid());
-        leadApi.updateLeadDisposition(leadData.getLeadUuid());
-        leadApi.triggerToCflow(leadData.getLeadUuid(),leadData.getElderUuid());
+        try{
+            LeadApi leadApi = new LeadApi();
+            LeadData leadData = leadApi.createLead();
+            leadApi.updateLeadAnswer(leadData.getLeadUuid());
+            leadApi.updateLeadDisposition(leadData.getLeadUuid());
+            leadApi.triggerToCflow(leadData.getLeadUuid(),leadData.getElderUuid());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+
 
     }
 }
