@@ -1,5 +1,6 @@
 package com.itihas.api;
 
+import com.itihas.dto.LeadData;
 import com.itihas.reporting.ExtentTestManager;
 import org.testng.annotations.Test;
 
@@ -10,9 +11,10 @@ public class LeadFlowTest {
         ExtentTestManager.getTest().info("Starting Lead API Workflow");
 
         LeadApi leadApi = new LeadApi();
-        String leadUuid = leadApi.createLead();
-        leadApi.updateLeadAnswer(leadUuid);
-        leadApi.updateLeadDisposition(leadUuid);
+        LeadData leadData =
+                leadApi.createLead();
+        leadApi.updateLeadAnswer(leadData.getLeadUuid());
+        leadApi.updateLeadDisposition(leadData.getLeadUuid());
 
     }
 }
