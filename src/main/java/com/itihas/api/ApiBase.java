@@ -9,7 +9,10 @@ public class ApiBase {
 
     protected static final String BASE_URL = ConfigReader.get("api.base.url");
 
-    protected static final String TOKEN = ConfigReader.getEnv("API_TOKEN");
+//    protected static final String TOKEN = ConfigReader.getEnv("API_TOKEN");
+    protected static final String ENV = System.getProperty("env", "QA");
+
+    protected static final String TOKEN = ConfigReader.getEnv(ENV.toUpperCase() + "_API_TOKEN");
     static {
         if (TOKEN == null || TOKEN.isBlank()) {
             throw new RuntimeException(

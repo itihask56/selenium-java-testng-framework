@@ -4,6 +4,7 @@ import com.itihas.utils.FakeDataGenerator;
 
 import com.itihas.utils.ResponseValidator;
 
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 import com.itihas.reporting.ExtentTestManager;
@@ -143,6 +144,36 @@ public class LeadApi extends ApiBase{
         ResponseValidator.validateStatusCode(updateLeadDispositionResponse,200,"UPDATE LEAD DISPOSITION FAILED");
         ExtentTestManager.getTest().pass("Lead Disposition Updated Successfully");
 
+    }
+
+    public void triggerToCflow(String leadUuid,String elderUuid){
+        String triggerToCflowPayload = String.format(
+                """
+                 {
+                 "lead_uuid":"%s",
+                 "principal_sale": "Elder",
+                 "elder_uuid": "%s",
+                 "new_flow": true
+                 }
+                """,
+                leadUuid,
+                elderUuid
+        );
+
+        ExtentTestManager.getTest().info("Triggering Lead To CFlow");
+        Response triggerToCflowResponse = apiClient.post("trigger-to-cflow",triggerToCflowPayload);
+        System.out.println(
+                "===== TRIGGER TO CFLOW RESPONSE ====="
+        );
+        triggerToCflowResponse.prettyPrint();
+
+        ResponseValidator.validateStatusCode(
+                triggerToCflowResponse,
+                200,
+                "TRIGGER TO CFLOW FAILED"
+        );
+        ExtentTestManager.getTest()
+                .pass("Lead Triggered To CFlow Successfully");
     }
 
 

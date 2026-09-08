@@ -11,10 +11,10 @@ public class LeadFlowTest {
         ExtentTestManager.getTest().info("Starting Lead API Workflow");
 
         LeadApi leadApi = new LeadApi();
-        LeadData leadData =
-                leadApi.createLead();
+        LeadData leadData = leadApi.createLead();
         leadApi.updateLeadAnswer(leadData.getLeadUuid());
         leadApi.updateLeadDisposition(leadData.getLeadUuid());
+        leadApi.triggerToCflow(leadData.getLeadUuid(),leadData.getElderUuid());
 
     }
 }
