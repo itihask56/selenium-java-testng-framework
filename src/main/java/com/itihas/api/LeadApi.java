@@ -7,11 +7,12 @@ import com.itihas.utils.ResponseValidator;
 import io.restassured.response.Response;
 
 import com.itihas.reporting.ExtentTestManager;
+import com.itihas.dto.LeadData;
 
 
 public class LeadApi extends ApiBase{
     private final ApiClient apiClient = new ApiClient();
-    public String createLead(){
+    public LeadData createLead(){
         String firstName = FakeDataGenerator.firstName();
 
         String lastName = FakeDataGenerator.lastName();
@@ -67,7 +68,7 @@ public class LeadApi extends ApiBase{
         String elderUuid = createLeadResponse.jsonPath().getString("data[0].elder_uuid");
         System.out.println("LEAD_UUID: "+ leadUuid);
         System.out.println("ELDER_UUID: "+ elderUuid);
-        return leadUuid;
+        return new LeadData(leadUuid,elderUuid);
     }
 
 
