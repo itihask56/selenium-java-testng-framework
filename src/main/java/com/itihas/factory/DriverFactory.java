@@ -12,12 +12,16 @@ import java.util.Map;
 
 public class DriverFactory {
 
-    public static WebDriver getDriver(){
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    public static void initDriver() {
+
         String browser = ConfigReader.get("browser");
 
-        switch (browser.trim().toLowerCase()) {
-            case "chrome":
+        WebDriver webDriver;
 
+        switch (browser.trim().toLowerCase()) {
+
+            case "chrome":
                 ChromeOptions options = new ChromeOptions();
 
                 Map<String, Object> prefs = new HashMap<>();
@@ -32,16 +36,44 @@ public class DriverFactory {
                 options.addArguments("--disable-features=PasswordLeakDetection");
                 options.addArguments("--disable-features=PasswordManagerOnboarding");
 
-                return new ChromeDriver(options);
+                webDriver = new ChromeDriver(options);
+                break;
+
             case "edge":
-                return new EdgeDriver();
+                webDriver = new EdgeDriver();
+                break;
+
             case "firefox":
-                return new FirefoxDriver();
+                webDriver = new FirefoxDriver();
+                break;
 
+            default:
+                throw new IllegalArgumentException(
+                        "Unsupported browser: " + browser
+                );
+        }
 
-            default:throw new IllegalArgumentException(
-                    "Unsupported browser: " + browser
+        driver.set(webDriver);
+    }
+
+    public static WebDriver getDriver() {
+
+        if (driver.get() == null) {
+            throw new RuntimeException(
+                    "Driver is not initialized for current thread"
             );
+        }
+
+        return driver.get();
+    }
+
+    public static void quitDriver() {
+
+        if (driver.get() != null) {
+
+            driver.get().quit();
+
+            driver.remove();
         }
     }
 }

@@ -6,6 +6,7 @@
 
     <listeners>
         <listener class-name="com.itihas.listeners.TestListener"/>
+        <listener class-name="com.itihas.listeners.RetryListener"/>
     </listeners>
 
     <test name="Parallel UI Tests">
