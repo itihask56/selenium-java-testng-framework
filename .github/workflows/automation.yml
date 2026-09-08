@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       API_TOKEN: ${{ secrets.API_TOKEN }}
+      QA_API_TOKEN: ${{ secrets.QA_API_TOKEN }}
+      PROD_API_TOKEN: ${{ secrets.PROD_API_TOKEN }}
 
     steps:
 

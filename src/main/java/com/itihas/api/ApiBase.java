@@ -13,10 +13,31 @@ public class ApiBase {
     protected static final String ENV = System.getProperty("env", "QA");
 
     protected static final String TOKEN = ConfigReader.getEnv(ENV.toUpperCase() + "_API_TOKEN");
+
     static {
+        System.out.println(
+                "Environment = "
+                        + System.getProperty("env")
+        );
+
+        System.out.println(
+                "Token found = "
+                        + (TOKEN != null)
+        );
         if (TOKEN == null || TOKEN.isBlank()) {
             throw new RuntimeException(
                     "API_TOKEN environment variable not found"
+            );
+        }
+        if (TOKEN != null) {
+            System.out.println(
+                    "Token Length = " +
+                            TOKEN.length()
+            );
+
+            System.out.println(
+                    "Starts With Bearer = " +
+                            TOKEN.startsWith("Bearer ")
             );
         }
     }
