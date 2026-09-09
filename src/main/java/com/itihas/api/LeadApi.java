@@ -2,6 +2,7 @@ package com.itihas.api;
 
 import com.itihas.utils.FakeDataGenerator;
 
+import com.itihas.utils.LoggerUtil;
 import com.itihas.utils.ResponseValidator;
 
 import io.restassured.RestAssured;
@@ -9,9 +10,13 @@ import io.restassured.response.Response;
 
 import com.itihas.reporting.ExtentTestManager;
 import com.itihas.dto.LeadData;
+import org.apache.logging.log4j.Logger;
 
 
 public class LeadApi extends ApiBase{
+    private static final Logger log = LoggerUtil.getLogger(LeadApi.class);
+
+
     private final ApiClient apiClient = new ApiClient();
     public LeadData createLead(){
         String firstName = FakeDataGenerator.firstName();
@@ -19,6 +24,12 @@ public class LeadApi extends ApiBase{
         String lastName = FakeDataGenerator.lastName();
 
         String phoneNumber = FakeDataGenerator.phoneNumber();
+        log.info(
+                "Creating lead for {} {} | Mobile: {}",
+                firstName,
+                lastName,
+                phoneNumber
+        );
         String createLeadPayload = String.format(
                 """
                 {
@@ -50,8 +61,11 @@ public class LeadApi extends ApiBase{
 //                        .post("/add-temp-activity");
 
         ExtentTestManager.getTest().info("Creating Lead");
+        log.info("Sending Create Lead API request");
         Response createLeadResponse = apiClient.post("/add-temp-activity",createLeadPayload);
-        System.out.println("===== CREATE LEAD RESPONSE =====");
+        log.info("Create Lead Response Status Code: {}", createLeadResponse.getStatusCode());
+
+        log.debug("Create Lead Response Body: {}", createLeadResponse.asPrettyString());
         createLeadResponse.prettyPrint();
 
 //        if(createLeadResponse .getStatusCode()!=200){
@@ -62,18 +76,21 @@ public class LeadApi extends ApiBase{
                 200,
                 "Create Lead Failed"
         );
+
         ExtentTestManager.getTest().pass("Lead Created Successfully");
 
 
         String leadUuid = createLeadResponse .jsonPath().getString("data[0].uuid");
         String elderUuid = createLeadResponse.jsonPath().getString("data[0].elder_uuid");
-        System.out.println("LEAD_UUID: "+ leadUuid);
-        System.out.println("ELDER_UUID: "+ elderUuid);
+        log.info("Lead Created Successfully");
+        log.info("Lead UUID: {}", leadUuid);
+        log.info("Elder UUID: {}", elderUuid);
         return new LeadData(leadUuid,elderUuid);
     }
 
 
     public void updateLeadAnswer(String leadUuid){
+        log.info("Updating lead answers | Lead UUID: {}", leadUuid);
         String updateLeadPayload = String.format("""
                 {
                     "lead_uuid": "%s",
@@ -108,11 +125,13 @@ public class LeadApi extends ApiBase{
 //        }
         ResponseValidator.validateStatusCode(updateLeadResponse,200,"UPDATE LEAD ANSWER FAILED");
         ExtentTestManager.getTest().pass("Lead Answers Updated Successfully");
+        log.info("Lead answers updated successfully");
 
 
     }
 
     public void updateLeadDisposition(String leadUuid){
+        log.info("Updating lead disposition | Lead UUID: {}", leadUuid);
         String updateLeadDispositionPayload = String.format("""
                 {
                     "lead_uuid": "%s",
@@ -143,6 +162,7 @@ public class LeadApi extends ApiBase{
 
         ResponseValidator.validateStatusCode(updateLeadDispositionResponse,200,"UPDATE LEAD DISPOSITION FAILED");
         ExtentTestManager.getTest().pass("Lead Disposition Updated Successfully");
+        log.info("Lead disposition updated successfully");
 
     }
 
@@ -161,6 +181,12 @@ public class LeadApi extends ApiBase{
         );
 
         ExtentTestManager.getTest().info("Triggering Lead To CFlow");
+        log.info(
+                "Triggering lead to CFlow | Lead UUID: {} | Elder UUID: {}",
+                leadUuid,
+                elderUuid
+        );
+
         Response triggerToCflowResponse = apiClient.post("trigger-to-cflow",triggerToCflowPayload);
         System.out.println(
                 "===== TRIGGER TO CFLOW RESPONSE ====="
@@ -174,6 +200,7 @@ public class LeadApi extends ApiBase{
         );
         ExtentTestManager.getTest()
                 .pass("Lead Triggered To CFlow Successfully");
+        log.info("Lead triggered to CFlow successfully");
     }
 
 
