@@ -1,6 +1,8 @@
 package com.itihas.factory;
 
 import com.itihas.utils.ConfigReader;
+import com.itihas.utils.LoggerUtil;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -13,15 +15,18 @@ import java.util.Map;
 public class DriverFactory {
 
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private static final Logger log = LoggerUtil.getLogger(DriverFactory.class);
     public static void initDriver() {
 
         String browser = ConfigReader.get("browser");
+        log.info("Initializing browser: {}", browser);
 
         WebDriver webDriver;
 
         switch (browser.trim().toLowerCase()) {
 
             case "chrome":
+                log.info("Launching Chrome browser");
                 ChromeOptions options = new ChromeOptions();
 
                 Map<String, Object> prefs = new HashMap<>();
@@ -40,10 +45,12 @@ public class DriverFactory {
                 break;
 
             case "edge":
+                log.info("Launching Edge browser");
                 webDriver = new EdgeDriver();
                 break;
 
             case "firefox":
+                log.info("Launching Firefox browser");
                 webDriver = new FirefoxDriver();
                 break;
 
@@ -54,6 +61,11 @@ public class DriverFactory {
         }
 
         driver.set(webDriver);
+        log.info(
+                "Driver initialized successfully | Thread: {} | Driver: {}",
+                Thread.currentThread().getId(),
+                webDriver.hashCode()
+        );
     }
 
     public static WebDriver getDriver() {
@@ -72,8 +84,14 @@ public class DriverFactory {
         if (driver.get() != null) {
 
             driver.get().quit();
+            log.info(
+                    "Closing Driver | Thread: {} | Driver: {}",
+                    Thread.currentThread().getId(),
+                    driver.get().hashCode()
+            );
 
             driver.remove();
+            log.info("Driver removed from ThreadLocal");
         }
     }
 }
