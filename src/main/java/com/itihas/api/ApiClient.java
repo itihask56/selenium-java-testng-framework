@@ -4,20 +4,20 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 public class ApiClient extends ApiBase{
-    public Response post(String endpoint, String payload){
+    public Response post(String endpoint, Object body){
         return RestAssured
                 .given()
                 .spec(REQUEST_SPEC)
-                .body(payload)
+                .body(body)
                 .when()
                 .post(endpoint);
     }
 
-    public Response put(String endpoint,String payload){
+    public Response put(String endpoint,Object body){
         return RestAssured
                 .given()
                 .spec(REQUEST_SPEC)
-                .body(payload)
+                .body(body)
                 .when()
                 .put(endpoint);
     }

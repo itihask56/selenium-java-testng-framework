@@ -1,5 +1,6 @@
 package com.itihas.api;
 
+import com.itihas.dto.request.TriggerToCflowRequest;
 import com.itihas.utils.FakeDataGenerator;
 
 import com.itihas.utils.LoggerUtil;
@@ -167,18 +168,27 @@ public class LeadApi extends ApiBase{
     }
 
     public void triggerToCflow(String leadUuid,String elderUuid){
-        String triggerToCflowPayload = String.format(
-                """
-                 {
-                 "lead_uuid":"%s",
-                 "principal_sale": "Elder",
-                 "elder_uuid": "%s",
-                 "new_flow": true
-                 }
-                """,
-                leadUuid,
-                elderUuid
-        );
+//        String triggerToCflowPayload = String.format(
+//                """
+//                 {
+//                 "lead_uuid":"%s",
+//                 "principal_sale": "Elder",
+//                 "elder_uuid": "%s",
+//                 "new_flow": true
+//                 }
+//                """,
+//                leadUuid,
+//                elderUuid
+//        );
+
+        TriggerToCflowRequest request =
+                new TriggerToCflowRequest(
+                        leadUuid,
+                        "Elder",
+                        elderUuid,
+                        true
+
+                );
 
         ExtentTestManager.getTest().info("Triggering Lead To CFlow");
         log.info(
@@ -187,7 +197,7 @@ public class LeadApi extends ApiBase{
                 elderUuid
         );
 
-        Response triggerToCflowResponse = apiClient.post("trigger-to-cflow",triggerToCflowPayload);
+        Response triggerToCflowResponse = apiClient.post("/trigger-to-cflow",request);
         System.out.println(
                 "===== TRIGGER TO CFLOW RESPONSE ====="
         );
