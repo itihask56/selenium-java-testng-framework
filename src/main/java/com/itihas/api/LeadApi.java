@@ -1,6 +1,6 @@
 package com.itihas.api;
 
-import com.itihas.dto.request.TriggerToCflowRequest;
+import com.itihas.dto.request.*;
 import com.itihas.utils.FakeDataGenerator;
 
 import com.itihas.utils.LoggerUtil;
@@ -12,6 +12,9 @@ import io.restassured.response.Response;
 import com.itihas.reporting.ExtentTestManager;
 import com.itihas.dto.LeadData;
 import org.apache.logging.log4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class LeadApi extends ApiBase{
@@ -31,27 +34,44 @@ public class LeadApi extends ApiBase{
                 lastName,
                 phoneNumber
         );
-        String createLeadPayload = String.format(
-                """
-                {
-                    "meta_data": {
-                        "lead_source": "Others",
-                        "lead_source_category": "Others",
-                        "mobile_number": "%s",
-                        "country_code": "+91",
-                        "campaign_name": "Ensure_Manual_Others",
-                        "ad_set": "default",
-                        "first_name": "%s",
-                        "last_name": "%s",
-                        "vertical_name": "Ensure",
-                        "agent_email_id": "namrata.patra@emoha.com"
-                    }
-                }
-                """,
+//        String createLeadPayload = String.format(
+//                """
+//                {
+//                    "meta_data": {
+//                        "lead_source": "Others",
+//                        "lead_source_category": "Others",
+//                        "mobile_number": "%s",
+//                        "country_code": "+91",
+//                        "campaign_name": "Ensure_Manual_Others",
+//                        "ad_set": "default",
+//                        "first_name": "%s",
+//                        "last_name": "%s",
+//                        "vertical_name": "Ensure",
+//                        "agent_email_id": "namrata.patra@emoha.com"
+//                    }
+//                }
+//                """,
+//                phoneNumber,
+//                firstName,
+//                lastName
+//        );
+
+        MetaData meta_data = new MetaData(
+                "Others",
+                "Others",
                 phoneNumber,
+                "+91",
+                "Ensure_Manual_Others",
+                "default",
                 firstName,
-                lastName
+                lastName,
+                "Ensure",
+                "namrata.patra@emoha.com"
+
+
         );
+
+        CreateLeadRequest request = new CreateLeadRequest(meta_data);
 
 //        Response createLeadResponse =
 //                RestAssured
@@ -63,7 +83,7 @@ public class LeadApi extends ApiBase{
 
         ExtentTestManager.getTest().info("Creating Lead");
         log.info("Sending Create Lead API request");
-        Response createLeadResponse = apiClient.post("/add-temp-activity",createLeadPayload);
+        Response createLeadResponse = apiClient.post("/add-temp-activity",request);
         log.info("Create Lead Response Status Code: {}", createLeadResponse.getStatusCode());
 
         log.debug("Create Lead Response Body: {}", createLeadResponse.asPrettyString());
@@ -91,20 +111,32 @@ public class LeadApi extends ApiBase{
 
 
     public void updateLeadAnswer(String leadUuid){
+        Map<String, String> answers = new HashMap<>();
+
+        answers.put("Region", "West");
+        answers.put("Services requirements", "Carer");
+        answers.put("Carer Type", "Nurse");
+        answers.put("Service City", "Mumbai");
+
+        UpdateLeadAnswerRequest request =
+                new UpdateLeadAnswerRequest(
+                        leadUuid,
+                        answers
+                );
         log.info("Updating lead answers | Lead UUID: {}", leadUuid);
-        String updateLeadPayload = String.format("""
-                {
-                    "lead_uuid": "%s",
-                    "answers": {
-                        "Region": "West",
-                        "Services requirements": "Carer",
-                        "Carer Type": "Nurse",
-                        "Service City": "Mumbai"
-                    }
-                }
-                """,
-                leadUuid
-        );
+//        String updateLeadPayload = String.format("""
+//                {
+//                    "lead_uuid": "%s",
+//                    "answers": {
+//                        "Region": "West",
+//                        "Services requirements": "Carer",
+//                        "Carer Type": "Nurse",
+//                        "Service City": "Mumbai"
+//                    }
+//                }
+//                """,
+//                leadUuid
+//        );
 
 //        Response updateLeadResponse =
 //                RestAssured
@@ -116,7 +148,7 @@ public class LeadApi extends ApiBase{
 
         ExtentTestManager.getTest().info("Updating Lead Answers");
 
-        Response updateLeadResponse = apiClient.put("/update-lead-answers?check_permission=false",updateLeadPayload);
+        Response updateLeadResponse = apiClient.put("/update-lead-answers?check_permission=false",request);
 
         System.out.println("===== UPDATE LEAD RESPONSE =====");
         updateLeadResponse.prettyPrint();
@@ -133,15 +165,22 @@ public class LeadApi extends ApiBase{
 
     public void updateLeadDisposition(String leadUuid){
         log.info("Updating lead disposition | Lead UUID: {}", leadUuid);
-        String updateLeadDispositionPayload = String.format("""
-                {
-                    "lead_uuid": "%s",
-                    "disposition_uuid": "b78948e8-07ed-11f1-80bc-0a74388da8eb",
-                    "remark_uuid": null,
-                    "follow_up_date_time": "2026-08-05T16:08:20.265Z"
-                }
-                """,
-                leadUuid
+//        String updateLeadDispositionPayload = String.format("""
+//                {
+//                    "lead_uuid": "%s",
+//                    "disposition_uuid": "b78948e8-07ed-11f1-80bc-0a74388da8eb",
+//                    "remark_uuid": null,
+//                    "follow_up_date_time": "2026-08-05T16:08:20.265Z"
+//                }
+//                """,
+//                leadUuid
+//        );
+
+        UpdateLeadDispositionRequest request = new UpdateLeadDispositionRequest(
+                leadUuid,
+                "b78948e8-07ed-11f1-80bc-0a74388da8eb",
+                null,
+                "2026-08-05T16:08:20.265Z"
         );
 
 //        Response updateLeadDispositionResponse =
@@ -152,7 +191,7 @@ public class LeadApi extends ApiBase{
 //                        .when()
 //                        .put("/update-lead-disposition-remark?check_permission=false");
         ExtentTestManager.getTest().info("Updating Lead Disposition");
-        Response updateLeadDispositionResponse = apiClient.put("/update-lead-disposition-remark?check_permission=false",updateLeadDispositionPayload);
+        Response updateLeadDispositionResponse = apiClient.put("/update-lead-disposition-remark?check_permission=false",request);
 
         System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
         updateLeadDispositionResponse.prettyPrint();
