@@ -1,5 +1,6 @@
 package com.itihas.api;
 
+import com.itihas.filter.ApiLoggingFilter;
 import com.itihas.utils.ConfigReader;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -47,5 +48,6 @@ public class ApiBase {
                     .setBaseUri(BASE_URL)
                     .addHeader("Authorization", TOKEN)
                     .setContentType(ContentType.JSON)
+                    .addFilter(new ApiLoggingFilter())
                     .build();
 }
