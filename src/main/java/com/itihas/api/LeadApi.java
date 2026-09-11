@@ -87,7 +87,7 @@ public class LeadApi extends ApiBase{
         log.info("Create Lead Response Status Code: {}", createLeadResponse.getStatusCode());
 
         log.debug("Create Lead Response Body: {}", createLeadResponse.asPrettyString());
-        createLeadResponse.prettyPrint();
+//        createLeadResponse.prettyPrint();
 
 //        if(createLeadResponse .getStatusCode()!=200){
 //            throw new RuntimeException("Create Lead Failed");
@@ -149,9 +149,9 @@ public class LeadApi extends ApiBase{
         ExtentTestManager.getTest().info("Updating Lead Answers");
 
         Response updateLeadResponse = apiClient.put("/update-lead-answers?check_permission=false",request);
-
-        System.out.println("===== UPDATE LEAD RESPONSE =====");
-        updateLeadResponse.prettyPrint();
+//
+//        System.out.println("===== UPDATE LEAD RESPONSE =====");
+//        updateLeadResponse.prettyPrint();
 
 //        if(updateLeadResponse.getStatusCode()!=200){
 //            throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
@@ -193,8 +193,8 @@ public class LeadApi extends ApiBase{
         ExtentTestManager.getTest().info("Updating Lead Disposition");
         Response updateLeadDispositionResponse = apiClient.put("/update-lead-disposition-remark?check_permission=false",request);
 
-        System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
-        updateLeadDispositionResponse.prettyPrint();
+//        System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
+//        updateLeadDispositionResponse.prettyPrint();
 
 //        if(updateLeadDispositionResponse.getStatusCode()!=200){
 //            throw new RuntimeException("UPDATE LEAD DISPOSITION FAILED");
@@ -237,10 +237,10 @@ public class LeadApi extends ApiBase{
         );
 
         Response triggerToCflowResponse = apiClient.post("/trigger-to-cflow",request);
-        System.out.println(
-                "===== TRIGGER TO CFLOW RESPONSE ====="
-        );
-        triggerToCflowResponse.prettyPrint();
+//        System.out.println(
+//                "===== TRIGGER TO CFLOW RESPONSE ====="
+//        );
+ //       triggerToCflowResponse.prettyPrint();
 
         ResponseValidator.validateStatusCode(
                 triggerToCflowResponse,
