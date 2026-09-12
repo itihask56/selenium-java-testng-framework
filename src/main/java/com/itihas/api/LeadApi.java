@@ -2,6 +2,7 @@ package com.itihas.api;
 
 import com.itihas.dto.LeadScreeningData;
 import com.itihas.dto.request.*;
+import com.itihas.testdata.NursingAssessmentDataBuilder;
 import com.itihas.utils.FakeDataGenerator;
 
 import com.itihas.utils.LoggerUtil;
@@ -291,6 +292,52 @@ public class LeadApi extends ApiBase{
         log.info("Lead Screening Completed Successfully");
 
         ExtentTestManager.getTest().pass("Lead Screening Completed Successfully");
+    }
+
+
+    public void completeNursingAssessment(String leadUuid, Integer recordId) {
+
+        log.info(
+                "Completing Nursing Assessment | Lead UUID: {} | Record ID: {}",
+                leadUuid,
+                recordId
+        );
+
+        ExtentTestManager.getTest()
+                .info("Completing Nursing Assessment");
+
+        Map<String, String> values = NursingAssessmentDataBuilder.build();
+
+        NursingAssessmentRequest request =
+                new NursingAssessmentRequest(
+                        leadUuid,
+                        Integer.valueOf(recordId),
+                        "Nursing Assessment",
+                        "Completed",
+                        values
+                );
+
+        Response response =
+                apiClient.post(
+                        "/admin/cflow-crm/update-stage-details-in-workflow",
+                        request
+                );
+
+        ResponseValidator.validateStatusCode(
+                response,
+                200,
+                "NURSING ASSESSMENT FAILED"
+        );
+
+        ExtentTestManager.getTest()
+                .pass(
+                        "Nursing Assessment Completed Successfully"
+                );
+
+        log.info(
+                "Nursing Assessment Completed Successfully"
+        );
+
     }
 
 }
