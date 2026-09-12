@@ -2,7 +2,7 @@ package com.itihas.dto;
 
 public class LeadScreeningData {
 
-    private Integer recordId;
+    private final Integer recordId;
 
     public LeadScreeningData(Integer recordId){
         this.recordId = recordId;

@@ -256,4 +256,41 @@ public class LeadApi extends ApiBase{
         return new LeadScreeningData(recordId);
     }
 
+    public void completeLeadScreening(String leadUuid, Integer recordId) {
+
+        log.info("Completing Lead Screening | Lead UUID: {} | Record ID: {}", leadUuid, recordId);
+
+        ExtentTestManager.getTest().info("Completing Lead Screening");
+
+        Map<String, String> values = new HashMap<>();
+
+        values.put("Service Required", "Carer");
+        values.put("Staff Required", "1");
+        values.put("Service Start Date", "08-08-2026");
+        values.put("For how long do you need our services?", "Days");
+        values.put("Number Of Days", "5");
+        values.put("Nursing Assessment Type", "Virtual Nursing Assessment");
+        values.put("Assign to Central NO", "namrata.patra@emoha.com");
+
+
+        LeadScreeningRequest request = new LeadScreeningRequest(
+                "Lead Screening",
+                String.valueOf(recordId),
+                "Qualified",
+                values,
+                leadUuid
+        );
+        Response response = apiClient.post("/admin/cflow-crm/update-stage-details-in-workflow", request);
+
+        ResponseValidator.validateStatusCode(
+                response,
+                200,
+                "LEAD SCREENING FAILED"
+        );
+
+        log.info("Lead Screening Completed Successfully");
+
+        ExtentTestManager.getTest().pass("Lead Screening Completed Successfully");
+    }
+
 }

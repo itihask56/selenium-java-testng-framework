@@ -14,10 +14,13 @@ public class LeadFlowTest {
         try{
             LeadApi leadApi = new LeadApi();
             LeadData leadData = leadApi.createLead();
+
             leadApi.updateLeadAnswer(leadData.getLeadUuid());
             leadApi.updateLeadDisposition(leadData.getLeadUuid());
             leadApi.triggerToCflow(leadData.getLeadUuid(),leadData.getElderUuid());
-            leadApi.getLeadScreeningData(leadData.getLeadUuid());
+
+            LeadScreeningData leadScreeningData = leadApi.getLeadScreeningData(leadData.getLeadUuid());
+            leadApi.completeLeadScreening(leadData.getLeadUuid(),leadScreeningData.getRecordId());
 
         } catch (Exception e) {
             e.printStackTrace();
