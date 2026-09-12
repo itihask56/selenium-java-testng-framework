@@ -1,5 +1,6 @@
 package com.itihas.api;
 
+import com.itihas.dto.LeadScreeningData;
 import com.itihas.dto.request.*;
 import com.itihas.utils.FakeDataGenerator;
 
@@ -14,6 +15,7 @@ import com.itihas.dto.LeadData;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -83,7 +85,7 @@ public class LeadApi extends ApiBase{
 
         ExtentTestManager.getTest().info("Creating Lead");
         log.info("Sending Create Lead API request");
-        Response createLeadResponse = apiClient.post("/add-temp-activity",request);
+        Response createLeadResponse = apiClient.post("/crm/add-temp-activity",request);
         log.info("Create Lead Response Status Code: {}", createLeadResponse.getStatusCode());
 
         log.debug("Create Lead Response Body: {}", createLeadResponse.asPrettyString());
@@ -124,38 +126,11 @@ public class LeadApi extends ApiBase{
                         answers
                 );
         log.info("Updating lead answers | Lead UUID: {}", leadUuid);
-//        String updateLeadPayload = String.format("""
-//                {
-//                    "lead_uuid": "%s",
-//                    "answers": {
-//                        "Region": "West",
-//                        "Services requirements": "Carer",
-//                        "Carer Type": "Nurse",
-//                        "Service City": "Mumbai"
-//                    }
-//                }
-//                """,
-//                leadUuid
-//        );
-
-//        Response updateLeadResponse =
-//                RestAssured
-//                        .given()
-//                        .spec(REQUEST_SPEC)
-//                        .body(updateLeadPayload)
-//                        .when()
-//                        .put("/update-lead-answers?check_permission=false");
 
         ExtentTestManager.getTest().info("Updating Lead Answers");
 
-        Response updateLeadResponse = apiClient.put("/update-lead-answers?check_permission=false",request);
-//
-//        System.out.println("===== UPDATE LEAD RESPONSE =====");
-//        updateLeadResponse.prettyPrint();
+        Response updateLeadResponse = apiClient.put("/crm/update-lead-answers?check_permission=false",request);
 
-//        if(updateLeadResponse.getStatusCode()!=200){
-//            throw new RuntimeException("UPDATE LEAD ANSWER FAILED");
-//        }
         ResponseValidator.validateStatusCode(updateLeadResponse,200,"UPDATE LEAD ANSWER FAILED");
         ExtentTestManager.getTest().pass("Lead Answers Updated Successfully");
         log.info("Lead answers updated successfully");
@@ -165,17 +140,6 @@ public class LeadApi extends ApiBase{
 
     public void updateLeadDisposition(String leadUuid){
         log.info("Updating lead disposition | Lead UUID: {}", leadUuid);
-//        String updateLeadDispositionPayload = String.format("""
-//                {
-//                    "lead_uuid": "%s",
-//                    "disposition_uuid": "b78948e8-07ed-11f1-80bc-0a74388da8eb",
-//                    "remark_uuid": null,
-//                    "follow_up_date_time": "2026-08-05T16:08:20.265Z"
-//                }
-//                """,
-//                leadUuid
-//        );
-
         UpdateLeadDispositionRequest request = new UpdateLeadDispositionRequest(
                 leadUuid,
                 "b78948e8-07ed-11f1-80bc-0a74388da8eb",
@@ -183,22 +147,9 @@ public class LeadApi extends ApiBase{
                 "2026-08-05T16:08:20.265Z"
         );
 
-//        Response updateLeadDispositionResponse =
-//                RestAssured
-//                        .given()
-//                        .spec(REQUEST_SPEC)
-//                        .body(updateLeadDispositionPayload)
-//                        .when()
-//                        .put("/update-lead-disposition-remark?check_permission=false");
+
         ExtentTestManager.getTest().info("Updating Lead Disposition");
-        Response updateLeadDispositionResponse = apiClient.put("/update-lead-disposition-remark?check_permission=false",request);
-
-//        System.out.println("===== UPDATE LEAD DISPOSITION RESPONSE =====");
-//        updateLeadDispositionResponse.prettyPrint();
-
-//        if(updateLeadDispositionResponse.getStatusCode()!=200){
-//            throw new RuntimeException("UPDATE LEAD DISPOSITION FAILED");
-//        }
+        Response updateLeadDispositionResponse = apiClient.put("/crm/update-lead-disposition-remark?check_permission=false",request);
 
         ResponseValidator.validateStatusCode(updateLeadDispositionResponse,200,"UPDATE LEAD DISPOSITION FAILED");
         ExtentTestManager.getTest().pass("Lead Disposition Updated Successfully");
@@ -207,18 +158,7 @@ public class LeadApi extends ApiBase{
     }
 
     public void triggerToCflow(String leadUuid,String elderUuid){
-//        String triggerToCflowPayload = String.format(
-//                """
-//                 {
-//                 "lead_uuid":"%s",
-//                 "principal_sale": "Elder",
-//                 "elder_uuid": "%s",
-//                 "new_flow": true
-//                 }
-//                """,
-//                leadUuid,
-//                elderUuid
-//        );
+
 
         TriggerToCflowRequest request =
                 new TriggerToCflowRequest(
@@ -236,12 +176,7 @@ public class LeadApi extends ApiBase{
                 elderUuid
         );
 
-        Response triggerToCflowResponse = apiClient.post("/trigger-to-cflow",request);
-//        System.out.println(
-//                "===== TRIGGER TO CFLOW RESPONSE ====="
-//        );
- //       triggerToCflowResponse.prettyPrint();
-
+        Response triggerToCflowResponse = apiClient.post("/crm/trigger-to-cflow",request);
         ResponseValidator.validateStatusCode(
                 triggerToCflowResponse,
                 200,
@@ -252,5 +187,73 @@ public class LeadApi extends ApiBase{
         log.info("Lead triggered to CFlow successfully");
     }
 
+    public LeadScreeningData getLeadScreeningData(String leadUuid) {
+
+        log.info(
+                "Fetching Lead Screening Data for Lead UUID: {}",
+                leadUuid
+        );
+
+        ExtentTestManager.getTest()
+                .info("Fetching Lead Screening Record ID");
+        ExtentTestManager.getTest()
+                .info("Searching Record ID generated by CFlow");
+        Response response =
+                apiClient.get(
+                        "/admin/cflow-crm/dashboard-task-list?stage=0"
+                );
+
+        ResponseValidator.validateStatusCode(
+                response,
+                200,
+                "GET LEAD SCREENING DATA FAILED"
+        );
+
+        List<Map<String, Object>> records =
+                response.jsonPath()
+                        .getList("data");
+
+        Integer recordId = null;
+
+        for (Map<String, Object> record : records) {
+
+            String responseLeadUuid =
+                    (String) record.get("lead_uuid");
+
+            if (leadUuid.equals(responseLeadUuid)) {
+
+                recordId =
+                        (Integer) record.get("record_id");
+
+                break;
+            }
+        }
+
+        if (recordId == null) {
+
+            log.error(
+                    "Record ID not found for Lead UUID: {}",
+                    leadUuid
+            );
+
+            throw new RuntimeException(
+                    "Record ID not found for Lead UUID: "
+                            + leadUuid
+            );
+        }
+
+        log.info(
+                "Record ID Found: {}",
+                recordId
+        );
+
+        ExtentTestManager.getTest()
+                .pass(
+                        "Record ID Found Successfully : "
+                                + recordId
+                );
+
+        return new LeadScreeningData(recordId);
+    }
 
 }
