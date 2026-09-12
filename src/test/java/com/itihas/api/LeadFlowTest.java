@@ -22,6 +22,8 @@ public class LeadFlowTest {
             LeadScreeningData leadScreeningData = leadApi.getLeadScreeningData(leadData.getLeadUuid());
             leadApi.completeLeadScreening(leadData.getLeadUuid(),leadScreeningData.getRecordId());
 
+            leadApi.completeNursingAssessment(leadData.getLeadUuid(),leadScreeningData.getRecordId());
+
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
