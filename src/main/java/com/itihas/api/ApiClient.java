@@ -21,4 +21,11 @@ public class ApiClient extends ApiBase{
                 .when()
                 .put(endpoint);
     }
+    public Response get(String endpoint){
+        return RestAssured
+                .given()
+                .spec(REQUEST_SPEC)
+                .when()
+                .get(endpoint);
+    }
 }
