@@ -3,6 +3,7 @@ package com.itihas.api;
 import com.itihas.dto.LeadScreeningData;
 import com.itihas.dto.request.*;
 import com.itihas.testdata.NursingAssessmentDataBuilder;
+import com.itihas.testdata.QuotationDataBuilder;
 import com.itihas.utils.FakeDataGenerator;
 
 import com.itihas.utils.LoggerUtil;
@@ -338,6 +339,66 @@ public class LeadApi extends ApiBase{
                 "Nursing Assessment Completed Successfully"
         );
 
+    }
+
+    public void completeQuotationSharing(String leadUuid, Integer recordId) {
+
+        if (recordId == null) {
+            throw new RuntimeException(
+                    "Record ID is null. Cannot complete Quotation Sharing."
+            );
+        }
+
+        log.info(
+                "Completing Quotation Sharing | Lead UUID: {} | Record ID: {}",
+                leadUuid,
+                recordId
+        );
+
+        ExtentTestManager.getTest()
+                .info("Completing Quotation Sharing");
+
+        Map<String, String> values =
+                QuotationDataBuilder.build();
+
+        QuotationSharingRequest request =
+                new QuotationSharingRequest(
+                        "Quotation Sharing",
+                        recordId,
+                        "Completed",
+                        leadUuid,
+                        "05-08-2026",
+                        values
+                );
+
+        log.info(
+                "Submitting Quotation Sharing Request | Lead UUID: {}",
+                leadUuid
+        );
+
+        Response response =
+                apiClient.post(
+                        "/admin/cflow-crm/update-stage-details-in-workflow",
+                        request
+                );
+
+        log.info(
+                "Quotation Sharing Response Status: {}",
+                response.getStatusCode()
+        );
+
+        ResponseValidator.validateStatusCode(
+                response,
+                200,
+                "QUOTATION SHARING FAILED"
+        );
+
+        ExtentTestManager.getTest()
+                .pass("Quotation Sharing Completed Successfully");
+
+        log.info(
+                "Quotation Sharing Completed Successfully"
+        );
     }
 
 }

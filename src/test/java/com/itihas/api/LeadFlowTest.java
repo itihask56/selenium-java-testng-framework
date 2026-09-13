@@ -23,6 +23,7 @@ public class LeadFlowTest {
             leadApi.completeLeadScreening(leadData.getLeadUuid(),leadScreeningData.getRecordId());
 
             leadApi.completeNursingAssessment(leadData.getLeadUuid(),leadScreeningData.getRecordId());
+            leadApi.completeQuotationSharing(leadData.getLeadUuid(),leadScreeningData.getRecordId());
 
         } catch (Exception e) {
             e.printStackTrace();
