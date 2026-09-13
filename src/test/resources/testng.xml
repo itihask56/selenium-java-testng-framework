@@ -9,7 +9,8 @@
     <test name="Lead Flow Test">
 
         <classes>
-            <class name="com.itihas.api.LeadFlowTest"/>
+<!--            <class name="com.itihas.api.LeadFlowTest"/>-->
+            <class name="com.itihas.api.CarerFlowTest"/>
         </classes>
 
     </test>
