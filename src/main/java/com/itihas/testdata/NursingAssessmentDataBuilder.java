@@ -7,12 +7,11 @@ public class NursingAssessmentDataBuilder {
 
     public static Map<String, String> build() {
 
-        Map<String, String> values =
-                new HashMap<>();
+        Map<String, String> values = new HashMap<>();
 
         values.put("Status", "Completed");
-        values.put("Height in Feet and Inches", "4'3\"");
-        values.put("Weight in KG", "78");
+        values.put("Height in Feet and Inches", "4'1\"");
+        values.put("Weight in KG", "45");
         values.put("Marital Status", "Unmarried");
         values.put("Medical Conditions", "Hypertension");
         values.put("Other Medical Conditions", "");
@@ -21,7 +20,7 @@ public class NursingAssessmentDataBuilder {
         values.put("Differently Abled-Elder Medical Diagnosis", "");
         values.put("Communicable Disease", "No");
         values.put("Mention Disease", "");
-        values.put("Dietary preferences", "Non-Veg");
+        values.put("Dietary preferences", "Veg");
         values.put("Nutrition", "");
         values.put("Is Elder on special medical diet?", "No");
         values.put("If yes, please specify", "");
@@ -115,14 +114,14 @@ public class NursingAssessmentDataBuilder {
 
         values.put(
                 "Service Start Date (NO)",
-                "2026-09-15T07:16:34.860Z"
+                "2026-09-15T02:07:41.562Z"
         );
 
         values.put("Service Duration (final)", "Days");
         values.put("Number of Days (NO)", "5");
         values.put("Number of Months (NO)", "");
 
-        values.put("Please Specify : Summary", "no summery required");
+        values.put("Please Specify : Summary", "");
 
         values.put(
                 "Based on the assessment results, do you accept this case?",

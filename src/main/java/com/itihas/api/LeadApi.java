@@ -2,6 +2,7 @@ package com.itihas.api;
 
 import com.itihas.dto.LeadScreeningData;
 import com.itihas.dto.request.*;
+import com.itihas.testdata.LeadScreeningDataBuilder;
 import com.itihas.testdata.NursingAssessmentDataBuilder;
 import com.itihas.testdata.QuotationDataBuilder;
 import com.itihas.utils.FakeDataGenerator;
@@ -264,16 +265,7 @@ public class LeadApi extends ApiBase{
 
         ExtentTestManager.getTest().info("Completing Lead Screening");
 
-        Map<String, String> values = new HashMap<>();
-
-        values.put("Service Required", "Carer");
-        values.put("Staff Required", "1");
-        values.put("Service Start Date", "15-09-2026");
-        values.put("For how long do you need our services?", "Days");
-        values.put("Number Of Days", "5");
-        values.put("Nursing Assessment Type", "Virtual Nursing Assessment");
-        values.put("Assign to Central NO", "namrata.patra@emoha.com");
-
+        Map<String, String> values = LeadScreeningDataBuilder.build();
 
         LeadScreeningRequest request = new LeadScreeningRequest(
                 "Lead Screening",
@@ -367,7 +359,7 @@ public class LeadApi extends ApiBase{
                         recordId,
                         "Completed",
                         leadUuid,
-                        "05-08-2026",
+                        "15-09-2026",
                         values
                 );
 
@@ -392,7 +384,6 @@ public class LeadApi extends ApiBase{
                 200,
                 "QUOTATION SHARING FAILED"
         );
-
         ExtentTestManager.getTest()
                 .pass("Quotation Sharing Completed Successfully");
 
