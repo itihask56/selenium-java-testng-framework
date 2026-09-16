@@ -1,6 +1,8 @@
 package com.itihas.api;
 
 import com.itihas.dto.CarerData;
+import com.itihas.dto.CarerRequisitionData;
+import com.itihas.dto.LeadData;
 import com.itihas.dto.request.AddCarerRequest;
 import com.itihas.reporting.ExtentTestManager;
 import com.itihas.testdata.AddCarerDataBuilder;
@@ -38,5 +40,54 @@ public class CarerApi extends ApiBase{
 
 
     }
+
+    public CarerRequisitionData getCarerRequisitionTask() {
+
+        String payload = """
+        {
+        "filters": {
+            "tab": "pending"
+        },
+        "sort": {
+            "field": "created_at",
+            "order": "DESC"
+        },
+        "pagination": {
+            "page": 1,
+            "limit": 20
+        },
+        "query": ""
+       }
+       """;
+
+        log.info("Fetching CRR Pending Tasks");
+
+        Response response =
+                apiClient.post(
+                        "/admin/carer-requisition-request",
+                        payload
+                );
+
+        ResponseValidator.validateStatusCode(
+                response,
+                200,
+                "GET CRR TASK FAILED"
+        );
+
+        String requisitionUuid =
+                response.jsonPath()
+                        .getString("data[0].uuid");
+
+
+        log.info(
+                "Requisition UUID Found: {}",
+                requisitionUuid
+        );
+
+        ExtentTestManager.getTest()
+                .pass("CRR Task Found Successfully");
+
+        return new CarerRequisitionData(requisitionUuid);
+      }
 
 }
