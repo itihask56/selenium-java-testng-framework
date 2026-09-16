@@ -1,5 +1,6 @@
 package com.itihas.api;
 
+import com.itihas.auth.UserRole;
 import com.itihas.dto.CarerData;
 import com.itihas.dto.request.AddCarerRequest;
 import com.itihas.reporting.ExtentTestManager;
@@ -11,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 public class CarerApi extends ApiBase{
     private static final Logger log = LoggerUtil.getLogger(CarerApi.class);
-    private final ApiClient apiClient = new ApiClient();
+    private final ApiClient apiClient = new ApiClient(UserRole.CRT);
 
     public CarerData addCarerRegionalCRT(){
         ExtentTestManager.getTest().info("Adding Carer Through Regional CRT");

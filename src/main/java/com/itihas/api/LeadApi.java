@@ -1,5 +1,6 @@
 package com.itihas.api;
 
+import com.itihas.auth.UserRole;
 import com.itihas.dto.LeadScreeningData;
 import com.itihas.dto.request.*;
 import com.itihas.testdata.LeadScreeningDataBuilder;
@@ -26,7 +27,7 @@ public class LeadApi extends ApiBase{
     private static final Logger log = LoggerUtil.getLogger(LeadApi.class);
 
 
-    private final ApiClient apiClient = new ApiClient();
+    private final ApiClient apiClient = new ApiClient(UserRole.BDNO);
     public LeadData createLead(){
         String firstName = FakeDataGenerator.firstName();
 
