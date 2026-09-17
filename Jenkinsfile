@@ -20,8 +20,11 @@ pipeline {
         maven 'Maven3'
     }
     environment {
-        QA_API_TOKEN = credentials('QA_API_TOKEN')
-        PROD_API_TOKEN = credentials('PROD_API_TOKEN')
+        QA_BDNO_TOKEN = credentials('QA_BDNO_TOKEN')
+        QA_CRT_TOKEN  = credentials('QA_CRT_TOKEN')
+
+        UAT_BDNO_TOKEN = credentials('UAT_BDNO_TOKEN')
+        UAT_CRT_TOKEN  = credentials('UAT_CRT_TOKEN')
     }
 
     stages {
