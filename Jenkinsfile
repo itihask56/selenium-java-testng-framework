@@ -22,9 +22,6 @@ pipeline {
     environment {
         QA_BDNO_TOKEN = credentials('QA_BDNO_TOKEN')
         QA_CRT_TOKEN  = credentials('QA_CRT_TOKEN')
-
-        UAT_BDNO_TOKEN = credentials('UAT_BDNO_TOKEN')
-        UAT_CRT_TOKEN  = credentials('UAT_CRT_TOKEN')
     }
 
     stages {
