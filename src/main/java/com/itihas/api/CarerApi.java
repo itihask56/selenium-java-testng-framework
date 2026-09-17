@@ -3,8 +3,8 @@ package com.itihas.api;
 import com.itihas.auth.UserRole;
 import com.itihas.dto.CarerData;
 import com.itihas.dto.CarerRequisitionData;
-import com.itihas.dto.LeadData;
 import com.itihas.dto.request.AddCarerRequest;
+import com.itihas.dto.request.PushCarerToCflowRequest;
 import com.itihas.reporting.ExtentTestManager;
 import com.itihas.testdata.AddCarerDataBuilder;
 import com.itihas.utils.LoggerUtil;
@@ -89,6 +89,46 @@ public class CarerApi extends ApiBase{
                 .pass("CRR Task Found Successfully");
 
         return new CarerRequisitionData(requisitionUuid);
+      }
+
+      public void pushCarerToCflow(String carerUuid,String requisitionUuid){
+
+          ExtentTestManager.getTest().info("Pushing Carer Profile to Cflow");
+
+          log.info(
+                  "Pushing Carer to Cflow | Requisition UUID: {} | Carer UUID: {}",
+                  requisitionUuid,
+                  carerUuid
+          );
+
+          PushCarerToCflowRequest request =
+                  new PushCarerToCflowRequest(
+                          requisitionUuid,
+                          carerUuid,
+                          "2",
+                          "vendor"
+                  );
+
+          Response response =
+                  apiClient.post(
+                          "/admin/carer-requisition-pushed-to-cflow",
+                          request
+                  );
+
+          log.info("Response Status: {}", response.getStatusCode());
+          log.info(
+                  "Response Body: {}",
+                  response.getBody().asPrettyString()
+          );
+
+
+          ResponseValidator.validateStatusCode(response,200,"PUSH CARER TO CFLOW FAILED");
+
+          log.info("Carer pushed to cflow successfully");
+          ExtentTestManager.getTest().info("Carer Pushed to cflow successfully");
+
+
+
       }
 
 }

@@ -11,8 +11,9 @@ public class CarerFlowTest {
     public void carerApiService(){
         ExtentTestManager.getTest().info("Starting Carer API Workflow");
         CarerApi carerApi = new CarerApi();
-        carerApi.addCarerRegionalCRT();
-        carerApi.getCarerRequisitionTask();
+        CarerData carerData = carerApi.addCarerRegionalCRT();
+        CarerRequisitionData carerRequisitionData = carerApi.getCarerRequisitionTask();
+        carerApi.pushCarerToCflow(carerData.getCarerUuid(),carerRequisitionData.getRequisitionUuid());
 
 
 

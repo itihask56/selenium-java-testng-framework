@@ -16,6 +16,11 @@ public class ScreenshotUtils {
     }
 
     public static String captureScreenshot(String testName) {
+        var driver = DriverFactory.getDriver();
+
+        if (driver == null) {
+            return null;
+        }
 
         String timestamp =
                 LocalDateTime.now()

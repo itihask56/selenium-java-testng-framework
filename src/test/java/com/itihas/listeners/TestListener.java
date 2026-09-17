@@ -1,6 +1,7 @@
 package com.itihas.listeners;
 
 import com.aventstack.extentreports.ExtentTest;
+import com.itihas.factory.DriverFactory;
 import com.itihas.reporting.ExtentManager;
 import com.itihas.utils.ScreenshotUtils;
 import org.testng.ITestContext;
@@ -38,19 +39,31 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
 
-        String screenshotPath =
-                ScreenshotUtils.captureScreenshot(
-                        result.getName()
-                );
+        ExtentTestManager.getTest().fail("TEST FAILED").fail(result.getThrowable());
 
-        ExtentTestManager.getTest()
-                .fail("TEST FAILED")
-                .fail(result.getThrowable())
-                .info("Screenshot captured at failure")
-                .addScreenCaptureFromPath(
-                        screenshotPath,
-                        result.getName()
-                );
+        try {
+            if (DriverFactory.getDriver() != null) {
+                String screenshotPath = ScreenshotUtils.captureScreenshot(result.getName());
+
+                if (screenshotPath != null) {
+
+                    ExtentTestManager.getTest()
+                            .info("Screenshot captured at failure")
+                            .addScreenCaptureFromPath(
+                                    screenshotPath,
+                                    result.getName()
+                            );
+                }
+                ExtentTestManager.getTest()
+                        .info("Screenshot captured at failure")
+                        .addScreenCaptureFromPath(screenshotPath, result.getName());
+            }
+        } catch (Exception e) {
+
+            ExtentTestManager
+                    .getTest()
+                    .warning("Unable to capture screenshot: " + e.getMessage());
+        }
     }
 
     @Override
