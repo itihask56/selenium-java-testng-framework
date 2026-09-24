@@ -41,9 +41,16 @@ pipeline {
 
                     def suiteToRun = params.SUITE
 
-                    if (currentBuild.getBuildCauses()[0].shortDescription.contains('Started by timer')) {
+                    def cause = currentBuild.getBuildCauses()[0].shortDescription
+
+                    if (cause.contains('GitHub push')) {
                         suiteToRun = 'Smoke'
-                        echo "Nightly Build Detected -> Running Smoke Suite"
+                        echo "GitHub Push Detected -> Running Smoke Suite"
+                    }
+
+                    if (cause.contains('Started by timer')) {
+                        suiteToRun = 'Regression'
+                        echo "Nightly Build Detected -> Running Regression Suite"
                     }
 
                     echo "Environment: ${params.ENV}"
