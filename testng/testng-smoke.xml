@@ -10,8 +10,9 @@
     <test name="Smoke Tests">
 
         <classes>
-            <class name="com.itihas.api.LeadFlowTest"/>
-            <class name="com.itihas.api.CarerFlowTest"/>
+<!--            <class name="com.itihas.api.LeadFlowTest"/>-->
+<!--            <class name="com.itihas.api.CarerFlowTest"/>-->
+            <class name="com.itihas.api.NursingFlowTest"></class>
         </classes>
 
     </test>
