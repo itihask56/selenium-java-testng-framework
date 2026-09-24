@@ -22,6 +22,7 @@ pipeline {
     environment {
         QA_BDNO_TOKEN = credentials('QA_BDNO_TOKEN')
         QA_CRT_TOKEN  = credentials('QA_CRT_TOKEN')
+        QA_SNO_TOKEN = credentials('QA_SNO_TOKEN')
     }
 
     stages {
@@ -41,8 +42,8 @@ pipeline {
                     def suiteToRun = params.SUITE
 
                     if (currentBuild.getBuildCauses()[0].shortDescription.contains('Started by timer')) {
-                        suiteToRun = 'Regression'
-                        echo "Nightly Build Detected -> Running Regression Suite"
+                        suiteToRun = 'Smoke'
+                        echo "Nightly Build Detected -> Running Smoke Suite"
                     }
 
                     echo "Environment: ${params.ENV}"
