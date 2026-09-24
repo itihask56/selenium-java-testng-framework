@@ -2,6 +2,9 @@ package com.itihas.api;
 
 import com.itihas.auth.UserRole;
 import com.itihas.dto.NoInterviewTaskData;
+import com.itihas.dto.request.NoInterviewRequest;
+import com.itihas.reporting.ExtentTestManager;
+import com.itihas.testdata.NoInterviewDataBuilder;
 import com.itihas.utils.LoggerUtil;
 import com.itihas.utils.ResponseValidator;
 import io.restassured.response.Response;
@@ -43,6 +46,40 @@ public class NursingApi extends ApiBase {
         return new NoInterviewTaskData(elderName,subprocessRecordId,taskUuid);
     }
 
+    public void completeNoInterviewTask(String taskUuid){
+
+        ExtentTestManager.getTest()
+                .info("Starting NO Interview Task Completion");
+
+        log.info("Starting NO Interview Task Completion");
+
+        NoInterviewRequest request =
+                NoInterviewDataBuilder.build(taskUuid);
+
+        Response response =
+                apiClient.post(
+                        "/admin/nh/task-form/submission",
+                        request
+                );
+
+        ResponseValidator.validateStatusCode(
+                response,
+                200,
+                "NO INTERVIEW FAILED"
+        );
+
+        log.info(
+                "NO Interview Completed Successfully |  Task UUID: {}",
+                taskUuid
+
+
+        );
+
+        ExtentTestManager.getTest()
+                .pass(
+                        "NO Interview Completed Successfully"
+                );
+    }
 
 
 }

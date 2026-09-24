@@ -10,4 +10,16 @@ public class NoInterviewTaskData {
         this.subprocessRecordId = subprocessRecordId;
         this.taskUuid = taskUuid;
     }
+
+    public String getElderName() {
+        return elderName;
+    }
+
+    public String getSubprocessRecordId() {
+        return subprocessRecordId;
+    }
+
+    public String getTaskUuid() {
+        return taskUuid;
+    }
 }
