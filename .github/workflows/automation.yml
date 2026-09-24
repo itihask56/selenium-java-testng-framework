@@ -17,6 +17,7 @@ jobs:
     env:
       QA_BDNO_TOKEN: ${{ secrets.QA_BDNO_TOKEN }}
       QA_CRT_TOKEN: ${{ secrets.QA_CRT_TOKEN }}
+      QA_SNO_TOKEN: ${{ secrets.QA_SNO_TOKEN }}
 
       PROD_BDNO_TOKEN: ${{ secrets.PROD_BDNO_TOKEN }}
       PROD_CRT_TOKEN: ${{ secrets.PROD_CRT_TOKEN }}
