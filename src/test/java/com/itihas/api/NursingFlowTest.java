@@ -11,6 +11,7 @@ public class NursingFlowTest {
         ExtentTestManager.getTest().info("Starting Nursing API Workflow");
         NursingApi nursingApi = new NursingApi();
         NoInterviewTaskData noInterviewData = nursingApi.getNoInterviewTask();
+        nursingApi.completeNoInterviewTask(noInterviewData.getTaskUuid());
 
 
     }
