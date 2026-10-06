@@ -12,7 +12,8 @@
     <test name="Parallel UI Tests">
 
         <classes>
-            <class name="com.itihas.tests.LoginTest"/>
+<!--            <class name="com.itihas.tests.LoginTest"/>-->
+            <class name="com.itihas.tests.EmohaLoginTest"/>
 <!--            <class name="com.itihas.tests.FindTotalProducts"/>-->
 <!--            <class name="com.itihas.tests.ProductsChearerThanTwenty"/>-->
         </classes>

@@ -15,12 +15,17 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      QA_BDNO_TOKEN: ${{ secrets.QA_BDNO_TOKEN }}
-      QA_CRT_TOKEN: ${{ secrets.QA_CRT_TOKEN }}
-      QA_SNO_TOKEN: ${{ secrets.QA_SNO_TOKEN }}
+#      QA_BDNO_TOKEN: ${{ secrets.QA_BDNO_TOKEN }}
+#      QA_CRT_TOKEN: ${{ secrets.QA_CRT_TOKEN }}
+#      QA_SNO_TOKEN: ${{ secrets.QA_SNO_TOKEN }}
+#
+#      PROD_BDNO_TOKEN: ${{ secrets.PROD_BDNO_TOKEN }}
+#      PROD_CRT_TOKEN: ${{ secrets.PROD_CRT_TOKEN }}
 
-      PROD_BDNO_TOKEN: ${{ secrets.PROD_BDNO_TOKEN }}
-      PROD_CRT_TOKEN: ${{ secrets.PROD_CRT_TOKEN }}
+      EMOHA_UI_USERNAME: ${{ secrets.EMOHA_UI_USERNAME }}
+      EMOHA_UI_PASSWORD: ${{ secrets.EMOHA_UI_PASSWORD }}
+      EMOHA_UI_MOBILE: ${{ secrets.EMOHA_UI_MOBILE }}
+      EMOHA_UI_OTP: ${{ secrets.EMOHA_UI_OTP }}
 
 
     steps:
@@ -43,5 +48,8 @@ jobs:
       - name: Run Smoke Suite
         run: |
           mvn clean test \
-          -Denv=QA \
-          -DsuiteXmlFile=testng/testng-smoke.xml
+            -Dtest=EmohaLoginTest
+#        run: |
+#          mvn clean test \
+#          -Denv=QA \
+#          -DsuiteXmlFile=testng/testng-smoke.xml
