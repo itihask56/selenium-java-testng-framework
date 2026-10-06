@@ -37,4 +37,13 @@ public class BasePage {
     protected List<WebElement> findAll(By locator){
         return driver.findElements(locator);
     }
+
+
+    protected void typeWhenEnabled(By locator, String text) {
+
+        WebElement element = waitUtils.waitForClickable(locator);
+        element.clear();
+        element.sendKeys(text);
+    }
+
 }
