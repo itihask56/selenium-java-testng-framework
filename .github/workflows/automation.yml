@@ -48,7 +48,8 @@ jobs:
       - name: Run Smoke Suite
         run: |
           mvn clean test \
-            -Dtest=EmohaLoginTest
+            -Denv=QA \
+            -DsuiteXmlFile=testng/testng-parallel.xml
 #        run: |
 #          mvn clean test \
 #          -Denv=QA \
