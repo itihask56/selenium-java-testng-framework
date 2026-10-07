@@ -41,6 +41,22 @@ public class DriverFactory {
                 options.addArguments("--disable-features=PasswordLeakDetection");
                 options.addArguments("--disable-features=PasswordManagerOnboarding");
 
+                // Detect CI environment
+                boolean isCI = "true".equalsIgnoreCase(System.getenv("CI"));
+                log.info("CI environment: {}", isCI);
+
+                if (isCI) {
+                    log.info("CI environment detected. Running Chrome in headless mode.");
+
+
+                    options.addArguments("--headless=new");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                    options.addArguments("--window-size=1920,1080");
+                } else {
+                    log.info("Local environment detected. Running Chrome normally.");
+                }
+
                 webDriver = new ChromeDriver(options);
                 break;
 
