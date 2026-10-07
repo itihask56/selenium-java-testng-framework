@@ -62,3 +62,5 @@ target/
 
 # Logs
 *.log
+
+test-output/
